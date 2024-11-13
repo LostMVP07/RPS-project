@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <style>
+        * {
+            font-family: cursive;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+        body{
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #rock,
+        #scissors,
+        #paper {
+            font-size: 6em;
+            background-color: transparent;
+            border: none;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        h1 {
+            text-align: center;
+            margin-block: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .container {
+            display: flex;
+            gap: 100px;
+            font-size: 2em;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .answer {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            max-height: 50px;
+            margin-bottom: 50px;
+        }
+
+        .gameover {
+            text-align: center;
+            min-height: 50px;
+            padding-top: 10px;
+            font-size: 2em;
+            user-select: none;
+        }
+
+        #gameOver {
+            opacity: 0;
+            transition: 1s ease;
+        }
+
+        #par, #computerPar {
+            font-size: 2em; 
+            font-weight: bold;
+        }
+
+        .restart-btn {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #restart {
+            cursor: pointer;
+            background-color: black;
+            color: white;
+            font-size: 2em;
+            border: 2px solid black;
+            border-radius: 12px;
+            padding: 10px 25px;
+            transition: 0.3s ease;
+        }
+
+        #restart:hover {
+            background-color: transparent;
+            color: black;
+        }
+
+        #restart:active {
+            color: gray;
+            transition: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Rock Paper Scissors</h1>
+
+    <div class="buttons">
+        <button id="rock">✊</button>
+        <button id="paper">✋</button>
+        <button id="scissors">✌</button>
+    </div>
+
+    <div class="gameover">  
+        <p id="gameOver"></p>
+    </div>
+    
+    <div class="container">
+        <div class="user">
+            <p id="par">_</p>
+            <p>You</p>
+            <p id="userScore">0</p>
+        </div>
+        <div class="computer">
+            <p id="computerPar">_</p>
+            <p>Computer</p>
+            <p id="computerScore">0</p>
+        </div>
+    </div>
+
+    <div class="restart-btn">
+        <button id="restart">Restart</button>
+    </div>
+
+    <script>
+        const rock = document.getElementById("rock")
+        const paper = document.getElementById("paper")
+        const scissors = document.getElementById("scissors")
+        const par = document.getElementById("par")
+        const computerPar = document.getElementById("computerPar")
+        const userScore = document.getElementById("userScore")
+        const computerScore = document.getElementById("computerScore")
+        const gameOver = document.getElementById("gameOver")
+        const restart = document.getElementById("restart")
+        let userScoreCount = 0
+        let computerScoreCount = 0
+
+        rock.onclick = function () {
+            const computerMove1 = Math.floor(Math.random() * 3) + 1
+            if (computerMove1 === 1) {
+                par.textContent = "✊"
+                computerPar.textContent = "✊"
+            }
+            else if (computerMove1 === 2) {
+                par.textContent = "✊"
+                computerPar.textContent = "✋"
+                computerScoreCount++
+                computerScore.textContent = computerScoreCount
+            }
+            else if (computerMove1 === 3) {
+                par.textContent = "✊"
+                computerPar.textContent = "✌"
+                userScoreCount++
+                userScore.textContent = userScoreCount
+            }
+            winner()
+        }
+
+        paper.onclick = function () {
+            const computerMove2 = Math.floor(Math.random() * 3) + 1
+            if (computerMove2 === 1) {
+                par.textContent = "✋"
+                computerPar.textContent = "✊"
+                userScoreCount++
+                userScore.textContent = userScoreCount
+            }
+            else if (computerMove2 === 2) {
+                par.textContent = "✋"
+                computerPar.textContent = "✋"
+            }
+            else if (computerMove2 === 3) {
+                par.textContent = "✋"
+                computerPar.textContent = "✌"
+                computerScoreCount++
+                computerScore.textContent = computerScoreCount
+            }
+            winner()
+        }
+
+        scissors.onclick = function () {
+            const computerMove3 = Math.floor(Math.random() * 3) + 1
+            if (computerMove3 === 1) {
+                par.textContent = "✌"
+                computerPar.textContent = "✊"
+                computerScoreCount++
+                computerScore.textContent = computerScoreCount
+            }
+            else if (computerMove3 === 2) {
+                par.textContent = "✌"
+                computerPar.textContent = "✋"
+                userScoreCount++
+                userScore.textContent = userScoreCount
+            }
+            else if (computerMove3 === 3) {
+                par.textContent = "✌"
+                computerPar.textContent = "✌"
+            }
+            winner()
+        }
+
+        function winner() {
+            if (userScoreCount === 5) {
+                gameOver.textContent = "You Win! Game Over!"
+                gameOver.style.color = "lime"
+                gameOver.style.opacity = "1"
+                disableButtons()
+            }
+            else if (computerScoreCount === 5) {
+                gameOver.textContent = "You Lost! Game Over!"
+                gameOver.style.color = "red"
+                gameOver.style.opacity = "1"
+                disableButtons()
+            }
+        }
+
+        function disableButtons() {
+            rock.disabled = true
+            paper.disabled = true
+            scissors.disabled = true
+        }
+
+        function enableButtons() {
+            rock.disabled = false
+            paper.disabled = false
+            scissors.disabled = false
+        }
+
+        restart.onclick = function () {
+            userScoreCount = 0
+            computerScoreCount = 0
+            userScore.textContent = userScoreCount
+            computerScore.textContent = computerScoreCount
+            gameOver.style.opacity = "0"
+            gameOver.style.color = "white"
+            gameOver.style.userSelect = "none"
+            par.textContent = "_"
+            computerPar.textContent = "_"
+            par.style.color = "black"
+            enableButtons()
+        }
+    </script>
+</body>
+
+</html>
